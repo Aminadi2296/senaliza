@@ -19,10 +19,10 @@ const FOTO = (a: number, b: number): V[] => [
 ]
 
 const TREE: Record<string, string[]> = {
-  Seguridad: ['Advertencia', 'Prohibición', 'Emergencia', 'Evacuación'],
-  Empresas: ['EPP', 'Informativas', 'Reciclaje'],
-  'Tránsito y obras': ['Señales de obras', 'Postes y atriles'],
   'Condominios y casas': ['Piscinas', 'Condominios'],
+  Empresas: ['EPP', 'Informativas', 'Reciclaje'],
+  Seguridad: ['Advertencia', 'Prohibición', 'Emergencia', 'Evacuación'],
+  'Tránsito y obras': ['Señales de obras', 'Postes y atriles'],
 }
 
 const PRODUCTS: { title: string; cat: string; norms: string[]; variants: V[]; short: string; custom?: boolean }[] = [

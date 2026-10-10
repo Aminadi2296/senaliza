@@ -62,7 +62,14 @@ export function Header({ tree }: { tree: CategoryNode[] }) {
           <ul>
             {tree.map((c) => (
               <li key={c.id}>
-                <Link href={`/categoria/${c.slug}`}>{c.name}</Link>
+                <Link href={`/categoria/${c.slug}`} className="nav-link">
+                  <span>{c.name}</span>
+                  {c.children.length > 0 && (
+                    <svg className="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  )}
+                </Link>
                 {c.children.length > 0 && (
                   <ul className="dropdown">
                     {c.children.map((ch) => (
