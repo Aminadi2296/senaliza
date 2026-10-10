@@ -168,7 +168,16 @@ export interface Product {
          * Ej: 30x40 cm
          */
         size: string;
-        material: 'pvc' | 'aluminio' | 'reflectante' | 'fotoluminiscente' | 'adhesivo' | 'otro';
+        material:
+          | 'autoadhesiva'
+          | 'trovicel'
+          | 'alucobond'
+          | 'pvc'
+          | 'aluminio'
+          | 'reflectante'
+          | 'fotoluminiscente'
+          | 'adhesivo'
+          | 'otro';
         sku: string;
         price: number;
         compareAtPrice?: number | null;

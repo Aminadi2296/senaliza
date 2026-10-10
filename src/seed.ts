@@ -2,6 +2,7 @@
  * Datos de ejemplo para ver la tienda poblada: npm run seed
  * Los precios son ficticios. Bórralos desde el panel cuando cargues tu catálogo real.
  */
+import 'dotenv/config'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { toSlug } from './lib/slug'
@@ -42,6 +43,7 @@ const PRODUCTS: { title: string; cat: string; norms: string[]; variants: V[]; sh
 ]
 
 async function main() {
+  console.log('Conectando a la base de datos…')
   const payload = await getPayload({ config })
   const existing = await payload.count({ collection: 'categories' })
   if (existing.totalDocs > 0) {
@@ -86,7 +88,11 @@ async function main() {
   process.exit(0)
 }
 
-main().catch((e) => {
-  console.error(e)
+// Importante: `payload run` termina el proceso apenas se carga este archivo,
+// así que hay que esperar (await) a que main() termine.
+try {
+  await main()
+} catch (e) {
+  console.error('El seed falló:', e)
   process.exit(1)
-})
+}

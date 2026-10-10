@@ -42,7 +42,9 @@ export default async function ProductPage({ params }: Props) {
 
   const variants: VariantOption[] = (p.variants ?? []).map((v) => ({
     sku: v.sku,
-    label: `${v.size}, ${MATERIALS[v.material] ?? v.material}`,
+    size: v.size,
+    material: v.material,
+    materialLabel: MATERIALS[v.material] ?? v.material,
     price: v.price,
     compareAtPrice: v.compareAtPrice,
     available: !v.trackStock || (v.stock ?? 0) > 0,

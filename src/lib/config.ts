@@ -41,6 +41,9 @@ export const NORMS: Record<string, string> = {
 }
 
 export const MATERIALS: Record<string, string> = {
+  autoadhesiva: 'Lámina autoadhesiva',
+  trovicel: 'Trovicel / Sintra 3 mm',
+  alucobond: 'Aluminio compuesto 2 mm',
   pvc: 'PVC',
   aluminio: 'Aluminio',
   reflectante: 'Reflectante',

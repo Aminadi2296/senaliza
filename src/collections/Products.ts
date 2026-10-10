@@ -63,6 +63,9 @@ export const Products: CollectionConfig = {
                       type: 'select',
                       required: true,
                       options: [
+                        { label: 'Lámina autoadhesiva', value: 'autoadhesiva' },
+                        { label: 'Trovicel / Sintra 3 mm', value: 'trovicel' },
+                        { label: 'Aluminio compuesto 2 mm', value: 'alucobond' },
                         { label: 'PVC', value: 'pvc' },
                         { label: 'Aluminio', value: 'aluminio' },
                         { label: 'Reflectante', value: 'reflectante' },
