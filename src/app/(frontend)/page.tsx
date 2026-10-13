@@ -19,13 +19,19 @@ export default async function Home() {
           <div className="hero-copy">
             <h1>Señalética de seguridad normada, fabricada y enviada a todo Chile</h1>
             <p>
-              Advertencia, prohibición, evacuación, EPP y obras. Cumple DS 594, NCh 1410 y NCh 1411. Compras sin crear cuenta y envío gratis sobre {clp(SHIPPING.freeFrom)}.
+              Advertencia, prohibición, evacuación, EPP y obras. Cumple DS 594, NCh 1410 y NCh 1411.
+              Compras sin crear cuenta y envío gratis sobre {clp(SHIPPING.freeFrom)}.
             </p>
             <div className="hero-actions">
               <Link href="/catalogo" className="btn btn-yellow">
                 Ver catálogo
               </Link>
-              <a href={`https://wa.me/${SITE.whatsapp}`} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+              <a
+                href={`https://wa.me/${SITE.whatsapp}`}
+                className="btn btn-ghost"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Pedir cotización
               </a>
             </div>
@@ -37,25 +43,6 @@ export default async function Home() {
             <SignTile kind="mandatory" />
           </div>
         </div>
-      </section>
-
-      <section className="section">
-        <h2>Compra por tipo de señal</h2>
-        {tree.length === 0 ? (
-          <p className="empty">El catálogo está en preparación. Vuelve pronto.</p>
-        ) : (
-          <div className="cat-grid">
-            {tree.map((c) => (
-              <Link key={c.id} href={`/categoria/${c.slug}`} className={`cat-tile kind-${signKind(c.name)}`}>
-                <SignTile kind={signKind(c.name)} />
-                <span>
-                  {c.name}
-                  {c.children.length > 0 && <small>{c.children.length} subcategorías</small>}
-                </span>
-              </Link>
-            ))}
-          </div>
-        )}
       </section>
 
       {latest && latest.docs.length > 0 && (
