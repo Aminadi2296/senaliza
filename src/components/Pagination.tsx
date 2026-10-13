@@ -6,13 +6,51 @@ export function Pagination({ page, totalPages, basePath, query = {} }: { page: n
     const qs = new URLSearchParams({ ...query, ...(p > 1 ? { pagina: String(p) } : {}) }).toString()
     return qs ? `${basePath}?${qs}` : basePath
   }
+  const visiblePages = new Set([1, totalPages])
+  for (let p = Math.max(1, page - 1); p <= Math.min(totalPages, page + 1); p++) visiblePages.add(p)
+  const pages = [...visiblePages].sort((a, b) => a - b)
+  const pageItems = pages.flatMap((p, index) => {
+    const previous = pages[index - 1]
+    return [...(previous && p - previous > 1 ? [{ type: 'ellipsis' as const, key: `ellipsis-${previous}-${p}` }] : []), { type: 'page' as const, page: p }]
+  })
+
   return (
     <nav className="pagination" aria-label="Paginación">
-      {page > 1 ? <Link href={href(page - 1)}>Anterior</Link> : <span />}
-      <span>
-        Página {page} de {totalPages}
-      </span>
-      {page < totalPages ? <Link href={href(page + 1)}>Siguiente</Link> : <span />}
+      <div className="pagination-controls">
+        {page > 1 ? (
+          <Link className="pagination-link pagination-direction" href={href(page - 1)} aria-label="Ir a la página anterior">
+            Anterior
+          </Link>
+        ) : (
+          <span className="pagination-link pagination-direction is-disabled" aria-disabled="true">
+            Anterior
+          </span>
+        )}
+        {pageItems.map((item) =>
+          item.type === 'ellipsis' ? (
+            <span key={item.key} className="pagination-ellipsis" aria-hidden="true">
+              …
+            </span>
+          ) : item.page === page ? (
+            <span key={item.page} className="pagination-link is-current" aria-current="page" aria-label={`Página ${item.page}`}>
+              {item.page}
+            </span>
+          ) : (
+            <Link key={item.page} className="pagination-link" href={href(item.page)} aria-label={`Ir a la página ${item.page}`}>
+              {item.page}
+            </Link>
+          ),
+        )}
+        {page < totalPages ? (
+          <Link className="pagination-link pagination-direction" href={href(page + 1)} aria-label="Ir a la página siguiente">
+            Siguiente
+          </Link>
+        ) : (
+          <span className="pagination-link pagination-direction is-disabled" aria-disabled="true">
+            Siguiente
+          </span>
+        )}
+      </div>
     </nav>
   )
 }
