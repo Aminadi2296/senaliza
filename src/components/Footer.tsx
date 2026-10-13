@@ -12,7 +12,7 @@ export function Footer({ tree }: { tree: CategoryNode[] }) {
         </div>
         <div>
           <p className="footer-title">Categorías</p>
-          <ul>
+          <ul className="footer-categories">
             {tree.map((c) => (
               <li key={c.id}>
                 <Link href={`/categoria/${c.slug}`}>{c.name}</Link>

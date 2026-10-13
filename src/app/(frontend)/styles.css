@@ -1129,6 +1129,7 @@ legend {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   gap: 2rem;
+  font-size: 0.9rem;
 }
 .footer-grid ul {
   list-style: none;
@@ -1137,18 +1138,24 @@ legend {
   display: grid;
   gap: 0.35rem;
 }
+.footer-grid .footer-categories {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.5rem;
+}
 .footer-grid a {
   color: #fff;
+  text-decoration: none;
 }
 .footer-brand {
   font:
-    700 1.75rem var(--font-montserrat),
+    700 1.5rem var(--font-montserrat),
     sans-serif;
   color: #fff;
   margin: 0 0 0.5rem;
 }
 .footer-title {
   font-weight: 600;
+  font-size: 0.95rem;
   color: #fff;
   margin: 0 0 0.5rem;
 }
@@ -1157,7 +1164,7 @@ legend {
   margin: 0 auto;
   padding: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 /* Aviso al agregar */
