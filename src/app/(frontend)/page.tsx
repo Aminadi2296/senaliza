@@ -1,10 +1,8 @@
 import Link from 'next/link'
 import { ProductGrid } from '@/components/ProductCard'
-import { SignTile } from '@/components/SignTile'
 import { SHIPPING, SITE } from '@/lib/config'
 import { getCategoryTree, listProducts } from '@/lib/data'
 import { clp } from '@/lib/format'
-import { signKind } from '@/lib/signs'
 
 export const revalidate = 60
 
@@ -15,6 +13,15 @@ export default async function Home() {
   return (
     <>
       <section className="hero">
+        <video
+          className="hero-video"
+          src="/hero.webm"
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-hidden="true"
+        />
         <div className="hero-inner">
           <div className="hero-copy">
             <h1>Señalética de seguridad normada, fabricada y enviada a todo Chile</h1>
@@ -35,12 +42,6 @@ export default async function Home() {
                 Pedir cotización
               </a>
             </div>
-          </div>
-          <div className="hero-board" aria-hidden="true">
-            <SignTile kind="warning" />
-            <SignTile kind="prohibition" />
-            <SignTile kind="evacuation" />
-            <SignTile kind="mandatory" />
           </div>
         </div>
       </section>
