@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Barlow, Barlow_Condensed } from 'next/font/google'
+import { Montserrat } from 'next/font/google'
 import React from 'react'
 import './styles.css'
 import { CartProvider } from '@/components/CartProvider'
@@ -9,8 +9,12 @@ import { JsonLd } from '@/components/JsonLd'
 import { SITE } from '@/lib/config'
 import { getCategoryTree } from '@/lib/data'
 
-const body = Barlow({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-body', display: 'swap' })
-const display = Barlow_Condensed({ subsets: ['latin'], weight: ['600', '700'], variable: '--font-display', display: 'swap' })
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-montserrat',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -22,7 +26,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { tree } = await getCategoryTree()
   return (
-    <html lang="es-CL" className={`${body.variable} ${display.variable}`}>
+    <html lang="es-CL" className={montserrat.variable}>
       <body>
         <JsonLd data={{ '@context': 'https://schema.org', '@type': 'Organization', name: SITE.name, url: SITE.url, email: SITE.email }} />
         <CartProvider>
