@@ -4,7 +4,7 @@ import { randomBytes } from 'crypto'
 import { redirect } from 'next/navigation'
 import { REGIONES, shippingFor } from '@/lib/config'
 import { getClient } from '@/lib/data'
-import { MATERIALS } from '@/lib/config'
+import { variantLabel } from '@/lib/format'
 
 export type CheckoutState = { error?: string; values?: Record<string, string> } | null
 
@@ -59,12 +59,14 @@ export async function createOrder(_prev: CheckoutState, fd: FormData): Promise<C
     const product = products.find((p) => p.id === l.productId)
     const variant = product?.variants?.find((v) => v.sku === l.sku)
     if (!product || !variant) return { error: 'Un producto de tu carrito ya no está disponible. Revisa el carrito y vuelve a intentar.', values }
+    if (variant.available === false)
+      return { error: `“${product.title}” ya no está disponible en la variante elegida. Revisa tu carrito.`, values }
     if (variant.trackStock && (variant.stock ?? 0) < l.qty)
-      return { error: `No hay stock suficiente de “${product.title}” (${variant.size}). Disponible: ${variant.stock ?? 0}.`, values }
+      return { error: `No hay stock suficiente de “${product.title}”. Disponible: ${variant.stock ?? 0}.`, values }
     items.push({
       product: product.id,
       title: product.title,
-      variantLabel: `${variant.size}, ${MATERIALS[variant.material] ?? variant.material}`,
+      variantLabel: variantLabel(variant.options),
       sku: variant.sku,
       unitPrice: variant.price,
       quantity: l.qty,

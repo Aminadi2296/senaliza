@@ -39,15 +39,3 @@ export const NORMS: Record<string, string> = {
   nch1411: 'NCh 1411',
   'tránsito': 'Manual de Tránsito',
 }
-
-export const MATERIALS: Record<string, string> = {
-  autoadhesiva: 'Lámina autoadhesiva',
-  trovicel: 'Trovicel / Sintra 3 mm',
-  alucobond: 'Aluminio compuesto 2 mm',
-  pvc: 'PVC',
-  aluminio: 'Aluminio',
-  reflectante: 'Reflectante',
-  fotoluminiscente: 'Fotoluminiscente',
-  adhesivo: 'Adhesivo',
-  otro: 'Otro',
-}

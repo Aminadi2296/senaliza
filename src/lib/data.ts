@@ -13,7 +13,7 @@ const parentId = (c: Category) => (typeof c.parent === 'object' && c.parent ? c.
 export const getCategoryTree = cache(async (): Promise<{ tree: CategoryNode[]; flat: Category[] }> => {
   try {
     const payload = await getClient()
-    const { docs } = await payload.find({ collection: 'categories', limit: 300, depth: 1, sort: 'name', pagination: false })
+    const { docs } = await payload.find({ collection: 'categories', limit: 300, depth: 1, sort: ['order', 'name'], pagination: false })
     const nodes = new Map<number, CategoryNode>(docs.map((d) => [d.id, { ...d, children: [] }]))
     const tree: CategoryNode[] = []
     for (const n of nodes.values()) {

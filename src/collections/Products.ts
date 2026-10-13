@@ -7,7 +7,7 @@ export const Products: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: 'Catálogo',
-    defaultColumns: ['title', 'categories', 'status', 'updatedAt'],
+    defaultColumns: ['title', 'categories', '_status', 'updatedAt'],
   },
   versions: { drafts: true },
   access: {
@@ -35,10 +35,20 @@ export const Products: CollectionConfig = {
             { name: 'description', label: 'Descripción completa', type: 'richText' },
             {
               name: 'images',
-              label: 'Imágenes',
+              label: 'Imágenes (subidas por ti)',
               type: 'array',
-              admin: { description: 'Si no subes imágenes, la tienda muestra la forma normada de la señal.' },
+              admin: { description: 'Si subes imágenes aquí, tienen prioridad sobre las externas. Sin imágenes, la tienda muestra la señal dibujada.' },
               fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true }],
+            },
+            {
+              name: 'externalImages',
+              label: 'Imágenes externas (por URL)',
+              type: 'array',
+              admin: { description: 'Se usan mientras no subas imágenes propias.' },
+              fields: [
+                { name: 'url', label: 'URL', type: 'text', required: true },
+                { name: 'alt', label: 'Texto alternativo', type: 'text' },
+              ],
             },
           ],
         },
@@ -51,27 +61,22 @@ export const Products: CollectionConfig = {
               type: 'array',
               minRows: 1,
               labels: { singular: 'Variante', plural: 'Variantes' },
-              admin: { description: 'Cada combinación de tamaño y material es una variante con su precio y stock.' },
+              admin: {
+                description:
+                  'Cada variante es una combinación de opciones (ej: Material = Aluminio compuesto 2mm, Tamaño = 30x20cm) con su precio. Usa los mismos nombres de opción en todas las variantes del producto y en el mismo orden.',
+              },
               fields: [
                 {
-                  type: 'row',
+                  name: 'options',
+                  label: 'Opciones',
+                  type: 'array',
+                  labels: { singular: 'Opción', plural: 'Opciones' },
                   fields: [
-                    { name: 'size', label: 'Tamaño', type: 'text', required: true, admin: { description: 'Ej: 30x40 cm' } },
                     {
-                      name: 'material',
-                      label: 'Material',
-                      type: 'select',
-                      required: true,
-                      options: [
-                        { label: 'Lámina autoadhesiva', value: 'autoadhesiva' },
-                        { label: 'Trovicel / Sintra 3 mm', value: 'trovicel' },
-                        { label: 'Aluminio compuesto 2 mm', value: 'alucobond' },
-                        { label: 'PVC', value: 'pvc' },
-                        { label: 'Aluminio', value: 'aluminio' },
-                        { label: 'Reflectante', value: 'reflectante' },
-                        { label: 'Fotoluminiscente', value: 'fotoluminiscente' },
-                        { label: 'Adhesivo (vinilo)', value: 'adhesivo' },
-                        { label: 'Otro', value: 'otro' },
+                      type: 'row',
+                      fields: [
+                        { name: 'name', label: 'Nombre', type: 'text', required: true, admin: { description: 'Ej: Material, Tamaño' } },
+                        { name: 'value', label: 'Valor', type: 'text', required: true, admin: { description: 'Ej: Lámina autoadhesiva, 30x20cm' } },
                       ],
                     },
                   ],
@@ -87,12 +92,8 @@ export const Products: CollectionConfig = {
                 {
                   type: 'row',
                   fields: [
-                    {
-                      name: 'trackStock',
-                      label: 'Controlar stock (si no, se fabrica a pedido)',
-                      type: 'checkbox',
-                      defaultValue: false,
-                    },
+                    { name: 'available', label: 'Disponible', type: 'checkbox', defaultValue: true },
+                    { name: 'trackStock', label: 'Controlar stock (si no, se fabrica a pedido)', type: 'checkbox', defaultValue: false },
                     {
                       name: 'stock',
                       label: 'Stock',
@@ -110,14 +111,7 @@ export const Products: CollectionConfig = {
         {
           label: 'Clasificación',
           fields: [
-            {
-              name: 'categories',
-              label: 'Categorías',
-              type: 'relationship',
-              relationTo: 'categories',
-              hasMany: true,
-              required: true,
-            },
+            { name: 'categories', label: 'Categorías', type: 'relationship', relationTo: 'categories', hasMany: true, required: true },
             {
               name: 'norms',
               label: 'Normas que cumple',
@@ -130,12 +124,7 @@ export const Products: CollectionConfig = {
                 { label: 'Manual de Señalización de Tránsito', value: 'tránsito' },
               ],
             },
-            {
-              name: 'customizable',
-              label: 'Admite personalización (logo / texto)',
-              type: 'checkbox',
-              defaultValue: false,
-            },
+            { name: 'customizable', label: 'Admite personalización (logo / texto)', type: 'checkbox', defaultValue: false },
           ],
         },
       ],

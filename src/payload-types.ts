@@ -151,7 +151,7 @@ export interface Product {
     [k: string]: unknown;
   } | null;
   /**
-   * Si no subes imágenes, la tienda muestra la forma normada de la señal.
+   * Si subes imágenes aquí, tienen prioridad sobre las externas. Sin imágenes, la tienda muestra la señal dibujada.
    */
   images?:
     | {
@@ -160,27 +160,37 @@ export interface Product {
       }[]
     | null;
   /**
-   * Cada combinación de tamaño y material es una variante con su precio y stock.
+   * Se usan mientras no subas imágenes propias.
+   */
+  externalImages?:
+    | {
+        url: string;
+        alt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Cada variante es una combinación de opciones (ej: Material = Aluminio compuesto 2mm, Tamaño = 30x20cm) con su precio. Usa los mismos nombres de opción en todas las variantes del producto y en el mismo orden.
    */
   variants?:
     | {
-        /**
-         * Ej: 30x40 cm
-         */
-        size: string;
-        material:
-          | 'autoadhesiva'
-          | 'trovicel'
-          | 'alucobond'
-          | 'pvc'
-          | 'aluminio'
-          | 'reflectante'
-          | 'fotoluminiscente'
-          | 'adhesivo'
-          | 'otro';
+        options?:
+          | {
+              /**
+               * Ej: Material, Tamaño
+               */
+              name: string;
+              /**
+               * Ej: Lámina autoadhesiva, 30x20cm
+               */
+              value: string;
+              id?: string | null;
+            }[]
+          | null;
         sku: string;
         price: number;
         compareAtPrice?: number | null;
+        available?: boolean | null;
         trackStock?: boolean | null;
         stock?: number | null;
         id?: string | null;
@@ -261,6 +271,10 @@ export interface Category {
    * Ej: "Emergencia" dentro de "Seguridad". Déjalo vacío para una categoría principal.
    */
   parent?: (number | null) | Category;
+  /**
+   * Menor número aparece primero.
+   */
+  order?: number | null;
   description?: string | null;
   image?: (number | null) | Media;
   meta?: {
@@ -448,14 +462,27 @@ export interface ProductsSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  externalImages?:
+    | T
+    | {
+        url?: T;
+        alt?: T;
+        id?: T;
+      };
   variants?:
     | T
     | {
-        size?: T;
-        material?: T;
+        options?:
+          | T
+          | {
+              name?: T;
+              value?: T;
+              id?: T;
+            };
         sku?: T;
         price?: T;
         compareAtPrice?: T;
+        available?: T;
         trackStock?: T;
         stock?: T;
         id?: T;
@@ -482,6 +509,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   parent?: T;
+  order?: T;
   description?: T;
   image?: T;
   meta?:

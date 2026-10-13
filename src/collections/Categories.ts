@@ -24,6 +24,13 @@ export const Categories: CollectionConfig = {
       relationTo: 'categories',
       admin: { description: 'Ej: "Emergencia" dentro de "Seguridad". Déjalo vacío para una categoría principal.' },
     },
+    {
+      name: 'order',
+      label: 'Orden en el menú',
+      type: 'number',
+      defaultValue: 0,
+      admin: { position: 'sidebar', description: 'Menor número aparece primero.' },
+    },
     { name: 'description', label: 'Descripción (aparece en la página de categoría)', type: 'textarea' },
     { name: 'image', label: 'Imagen', type: 'upload', relationTo: 'media' },
   ],

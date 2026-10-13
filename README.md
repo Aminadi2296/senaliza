@@ -17,7 +17,9 @@
 - El servidor vuelve a leer precios y stock desde la base de datos al crear el pedido; nunca confía en los precios del navegador.
 - Pago por ahora: transferencia (datos en `BANK_DETAILS`). La pasarela (Webpay) se conecta después en `src/app/(frontend)/checkout/actions.ts`.
 - SEO: metadatos por página, JSON-LD (Product, BreadcrumbList, Organization), `sitemap.xml` y `robots.txt`.
-- `npm run seed` carga categorías y productos de ejemplo (precios ficticios).
+- Importar catálogo desde Shopify: `npx tsx src/import-shopify.ts --limpiar --limite=10` (prueba) y luego sin `--limite` (completo). Ver cabecera de `src/import-shopify.ts`.
+- Variantes flexibles: cada producto define sus propias opciones (nombre y valor) con su precio.
+- Imágenes: las subidas desde el panel tienen prioridad sobre las externas (URL).
 - Despacho gratis sobre $80.000 y tarifa plana bajo ese monto: se ajusta en `src/lib/config.ts`.
 
 ## Siguiente

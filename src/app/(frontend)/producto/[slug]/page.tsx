@@ -7,9 +7,9 @@ import { Gallery } from '@/components/Gallery'
 import { JsonLd } from '@/components/JsonLd'
 import { ProductGrid } from '@/components/ProductCard'
 import { SignTile } from '@/components/SignTile'
-import { MATERIALS, NORMS, SITE } from '@/lib/config'
+import { NORMS, SITE } from '@/lib/config'
 import { categoriesOf, getProduct, listProducts, maxPrice, minPrice } from '@/lib/data'
-import { mediaUrl } from '@/lib/media'
+import { mediaUrl, productImages } from '@/lib/media'
 import { signKind } from '@/lib/signs'
 
 export const revalidate = 60
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!p) return {}
   const title = p.meta?.title || p.title
   const description = p.meta?.description || p.shortDescription || `${p.title}. Señalética normada con despacho a todo Chile.`
-  const img = mediaUrl(p.meta?.image, 'large') || mediaUrl(p.images?.[0]?.image, 'large')
+  const img = mediaUrl(p.meta?.image, 'large') || productImages(p)[0]?.full
   return { title, description, alternates: { canonical: `/producto/${slug}` }, openGraph: { title, description, type: 'website', images: img ? [img] : undefined } }
 }
 
@@ -32,22 +32,14 @@ export default async function ProductPage({ params }: Props) {
 
   const cats = categoriesOf(p)
   const kind = signKind(p.title, cats[0]?.name)
-  const images = (p.images ?? [])
-    .map((i) => {
-      const m = i.image
-      const src = mediaUrl(m, 'large')
-      return src ? { src, thumb: mediaUrl(m, 'thumb') ?? src, alt: (typeof m === 'object' && m?.alt) || p.title } : null
-    })
-    .filter((x): x is { src: string; thumb: string; alt: string } => Boolean(x))
+  const images = productImages(p)
 
   const variants: VariantOption[] = (p.variants ?? []).map((v) => ({
     sku: v.sku,
-    size: v.size,
-    material: v.material,
-    materialLabel: MATERIALS[v.material] ?? v.material,
+    options: (v.options ?? []).map((o) => ({ name: o.name, value: o.value })),
     price: v.price,
     compareAtPrice: v.compareAtPrice,
-    available: !v.trackStock || (v.stock ?? 0) > 0,
+    available: v.available !== false && (!v.trackStock || (v.stock ?? 0) > 0),
     maxQty: v.trackStock ? (v.stock ?? 0) : undefined,
   }))
 
@@ -62,7 +54,7 @@ export default async function ProductPage({ params }: Props) {
           '@type': 'Product',
           name: p.title,
           description: p.shortDescription ?? undefined,
-          image: images.map((i) => i.src),
+          image: images.map((i) => i.full),
           sku: p.variants?.[0]?.sku,
           brand: { '@type': 'Brand', name: SITE.name },
           offers: {
@@ -89,7 +81,7 @@ export default async function ProductPage({ params }: Props) {
       </nav>
 
       <div className="product">
-        <div>{images.length > 0 ? <Gallery images={images} /> : <SignTile kind={kind} className="sign-big" />}</div>
+        <div>{images.length > 0 ? <Gallery images={images.map((i) => ({ src: i.full, thumb: i.thumb, alt: i.alt }))} /> : <SignTile kind={kind} className="sign-big" />}</div>
         <div>
           <h1>{p.title}</h1>
           {p.shortDescription && <p className="lead">{p.shortDescription}</p>}
@@ -100,11 +92,15 @@ export default async function ProductPage({ params }: Props) {
               ))}
             </ul>
           )}
-          <AddToCart
-            product={{ id: p.id, slug: p.slug, title: p.title, image: mediaUrl(p.images?.[0]?.image, 'thumb'), kind }}
-            variants={variants}
-            customizable={Boolean(p.customizable)}
-          />
+          {variants.length > 0 ? (
+            <AddToCart
+              product={{ id: p.id, slug: p.slug, title: p.title, image: images[0]?.thumb ?? null, kind }}
+              variants={variants}
+              customizable={Boolean(p.customizable)}
+            />
+          ) : (
+            <p className="lead">Consulta el precio de este producto por WhatsApp.</p>
+          )}
           <p className="ship-note">Despacho a todo Chile. Pagas sin crear cuenta.</p>
         </div>
       </div>
