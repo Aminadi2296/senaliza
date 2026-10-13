@@ -441,6 +441,88 @@ h3 {
   height: 100%;
   object-fit: cover;
 }
+.featured-categories {
+  padding-top: 2.5rem;
+  padding-bottom: 1rem;
+}
+.featured-categories h2 {
+  margin-bottom: 1.25rem;
+}
+.featured-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.featured-category-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 30, 60, 0.08);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.featured-category-card:hover,
+.featured-category-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0, 30, 60, 0.15);
+}
+.featured-category-image {
+  position: relative;
+  display: block;
+  grid-column: 2;
+  grid-row: 1;
+  overflow: hidden;
+  min-height: 190px;
+  background: #f1f4f8;
+}
+.featured-category-image img {
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.featured-category-card:hover .featured-category-image img,
+.featured-category-card:focus-visible .featured-category-image img {
+  transform: scale(1.08);
+}
+.featured-category-content {
+  display: flex;
+  grid-column: 1;
+  grid-row: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+.featured-category-title {
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1.5vw, 1.4rem);
+  line-height: 1.2;
+}
+.featured-category-cta {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--blue);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.featured-category-cta span {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: var(--ink);
+}
 .section-head {
   display: flex;
   align-items: baseline;
@@ -1226,6 +1308,9 @@ legend {
   .footer-grid {
     grid-template-columns: 1fr;
   }
+  .featured-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .summary {
     position: static;
   }
@@ -1259,6 +1344,9 @@ legend {
   }
 }
 @media (max-width: 560px) {
+  .featured-category-grid {
+    grid-template-columns: 1fr;
+  }
   .cart-item {
     grid-template-columns: 72px 1fr;
   }

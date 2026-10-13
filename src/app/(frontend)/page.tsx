@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ProductGrid } from '@/components/ProductCard'
 import { SHIPPING, SITE } from '@/lib/config'
 import { getCategoryTree, listProducts } from '@/lib/data'
@@ -43,6 +44,60 @@ export default async function Home() {
               </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="section featured-categories" aria-label="Categorías destacadas">
+        <h2>Encuentra la señal que necesitas</h2>
+        <div className="featured-category-grid">
+          <Link className="featured-category-card" href="/categoria/fotoluminiscentes">
+            <span className="featured-category-image">
+              <Image
+                src="/Untitled%20design%20(2).svg"
+                alt=""
+                fill
+                sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
+              />
+            </span>
+            <span className="featured-category-content">
+              <span className="featured-category-title">Fotoluminiscentes</span>
+              <span className="featured-category-cta">
+                Explorar <span aria-hidden="true">↗</span>
+              </span>
+            </span>
+          </Link>
+          <Link className="featured-category-card" href="/categoria/sustancias-peligrosas">
+            <span className="featured-category-image">
+              <Image
+                src="/Untitled%20design%20(3).svg"
+                alt=""
+                fill
+                sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
+              />
+            </span>
+            <span className="featured-category-content">
+              <span className="featured-category-title">Sustancias peligrosas</span>
+              <span className="featured-category-cta">
+                Explorar <span aria-hidden="true">↗</span>
+              </span>
+            </span>
+          </Link>
+          <Link className="featured-category-card" href="/categoria/personalizables">
+            <span className="featured-category-image">
+              <Image
+                src="/Untitled%20design%20(4).svg"
+                alt=""
+                fill
+                sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
+              />
+            </span>
+            <span className="featured-category-content">
+              <span className="featured-category-title">Personalizadas</span>
+              <span className="featured-category-cta">
+                Explorar <span aria-hidden="true">↗</span>
+              </span>
+            </span>
+          </Link>
         </div>
       </section>
 
