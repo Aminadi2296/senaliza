@@ -1,8 +1,8 @@
 :root {
-  --ink: #001e3c;
+  --ink: #003a6c;
   --ink-2: #00315c;
-  --yellow: #aad803;
-  --yellow-d: #8bb300;
+  --yellow: #ff8975;
+  --yellow-d: #f37c67;
   --bg: #f1f4f8;
   --paper: #fff;
   --line: #d8dfe9;
@@ -1153,6 +1153,14 @@ legend {
 .footer-grid a {
   color: #fff;
   text-decoration: none;
+  transition:
+    color 0.2s ease,
+    font-weight 0.2s ease;
+}
+.footer-grid a:hover,
+.footer-grid a:focus-visible {
+  color: var(--yellow);
+  font-weight: 700;
 }
 .footer-brand {
   font:
