@@ -36,9 +36,9 @@ export function Header({ tree }: { tree: CategoryNode[] }) {
 
         <Link href="/" className="logo">
           <svg width="30" height="30" viewBox="0 0 100 100" aria-hidden="true">
-            <path d="M50 11 93 86H7Z" fill="#F7C600" stroke="#fff" strokeWidth="6" strokeLinejoin="round" />
-            <rect x="46" y="38" width="8" height="25" rx="3" fill="#0E2447" />
-            <circle cx="50" cy="73" r="4.6" fill="#0E2447" />
+            <path d="M50 11 93 86H7Z" fill="#AAD803" stroke="#fff" strokeWidth="6" strokeLinejoin="round" />
+            <rect x="46" y="38" width="8" height="25" rx="3" fill="#001E3C" />
+            <circle cx="50" cy="73" r="4.6" fill="#001E3C" />
           </svg>
           {SITE.name}
         </Link>

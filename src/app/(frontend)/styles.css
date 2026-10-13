@@ -1,15 +1,15 @@
 :root {
-  --ink: #0e2447;
-  --ink-2: #17356a;
-  --yellow: #f7c600;
-  --yellow-d: #dcae00;
+  --ink: #001e3c;
+  --ink-2: #00315c;
+  --yellow: #aad803;
+  --yellow-d: #8bb300;
   --bg: #f1f4f8;
   --paper: #fff;
   --line: #d8dfe9;
   --text: #15203a;
   --muted: #5a667f;
   --red: #c8202b;
-  --blue: #0a57a6;
+  --blue: #001e3c;
   --green: #0b7a4b;
   --max: 1200px;
   --r: 6px;
@@ -215,6 +215,14 @@ h3 {
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--r);
   padding: 0.45rem 0.8rem;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+.wsp-link:hover,
+.wsp-link:focus-visible {
+  background-color: #25d366;
+  border-color: #25d366;
 }
 .cart-link {
   position: relative;

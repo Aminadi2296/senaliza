@@ -24,10 +24,10 @@ export default async function Home() {
         />
         <div className="hero-inner">
           <div className="hero-copy">
-            <h1>Señalética de seguridad normada, fabricada y enviada a todo Chile</h1>
+            <h1>Protege tu espacio con señalética normada.</h1>
             <p>
               Advertencia, prohibición, evacuación, EPP y obras. Cumple DS 594, NCh 1410 y NCh 1411.
-              Compras sin crear cuenta y envío gratis sobre {clp(SHIPPING.freeFrom)}.
+              Compras sin crear cuenta y envío a todo Chile gratis sobre {clp(SHIPPING.freeFrom)}.
             </p>
             <div className="hero-actions">
               <Link href="/catalogo" className="btn btn-yellow">
