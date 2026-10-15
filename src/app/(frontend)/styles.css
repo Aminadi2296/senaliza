@@ -1,15 +1,15 @@
 :root {
-  --ink: #003a6c;
-  --ink-2: #00315c;
-  --yellow: #ff8975;
-  --yellow-d: #f37c67;
+  --ink: #000;
+  --ink-2: #000;
+  --yellow: #e90068;
+  --deep-pink: #e90068;
   --bg: #f1f4f8;
   --paper: #fff;
   --line: #d8dfe9;
-  --text: #15203a;
+  --text: #000;
   --muted: #5a667f;
   --red: #c8202b;
-  --blue: #001e3c;
+  --blue: #000;
   --green: #0b7a4b;
   --max: 1200px;
   --r: 6px;
@@ -112,21 +112,35 @@ h3 {
     sans-serif;
   cursor: pointer;
   text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 .btn-primary {
-  background: var(--ink);
+  background: var(--deep-pink);
   color: #fff;
 }
 .btn-yellow {
-  background: var(--yellow);
-  color: var(--ink);
+  background: var(--deep-pink);
+  color: #fff;
 }
 .btn-yellow:hover:not(:disabled) {
-  background: var(--yellow-d);
+  background: #c60058;
+}
+.hero .btn-yellow {
+  background: var(--deep-pink);
+  color: #fff;
+}
+.hero .btn-yellow:hover:not(:disabled),
+.hero .btn-yellow:focus-visible {
+  background: #fff;
+  border-color: var(--deep-pink);
+  color: var(--deep-pink);
 }
 .btn-ghost {
   border-color: #fff;
@@ -149,15 +163,15 @@ h3 {
 
 /* Cabecera */
 .announce {
-  background: var(--yellow);
-  color: var(--ink);
+  background: var(--deep-pink);
+  color: #fff;
   font-size: 0.875rem;
   font-weight: 600;
   text-align: center;
   padding: 0.4rem 1rem;
 }
 .site-header {
-  background: var(--ink);
+  background: #181818;
   color: #fff;
   position: sticky;
   top: 0;
@@ -200,8 +214,8 @@ h3 {
   min-height: 44px;
   padding: 0 1.1rem;
   border: 0;
-  background: var(--yellow);
-  color: var(--ink);
+  background: var(--deep-pink);
+  color: #fff;
   font: 600 1rem var(--font-montserrat);
   border-radius: 0 var(--r) var(--r) 0;
   cursor: pointer;
@@ -241,16 +255,16 @@ h3 {
   min-width: 20px;
   height: 20px;
   border-radius: 10px;
-  background: var(--yellow);
-  color: var(--ink);
+  background: var(--deep-pink);
+  color: #fff;
   font-size: 0.75rem;
   display: grid;
   place-items: center;
   padding: 0 4px;
 }
 .main-nav {
-  background: #fff;
-  border-bottom: 1px solid var(--line);
+  background: #181818;
+  border-bottom: 1px solid #333;
 }
 .main-nav > ul {
   max-width: var(--max);
@@ -270,7 +284,7 @@ h3 {
   align-items: center;
   gap: 0.25rem;
   padding: 1rem 0;
-  color: var(--text);
+  color: #fff;
   text-decoration: none;
   font-weight: 600;
   font-size: clamp(0.65rem, 1vw, 0.875rem);
@@ -362,29 +376,29 @@ h3 {
   left: 0;
   right: 0;
   top: 100%;
-  background: var(--paper);
-  color: var(--text);
+  background: #181818;
+  color: #fff;
   max-height: 70vh;
   overflow: auto;
   padding: 0.5rem 1rem 1rem;
-  border-bottom: 4px solid var(--yellow);
+  border-bottom: 4px solid var(--deep-pink);
 }
 .mobile-panel a {
   display: block;
-  color: var(--text);
+  color: #fff;
   text-decoration: none;
   padding: 0.55rem 0;
 }
 .mobile-group {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid #333;
 }
 .mobile-group a:not(.mobile-parent) {
   padding-left: 1rem;
-  color: var(--muted);
+  color: #ccc;
 }
 .mobile-parent {
   font-weight: 600;
-  color: var(--ink) !important;
+  color: #fff !important;
 }
 
 /* Inicio */
@@ -1379,7 +1393,7 @@ legend {
 
 /* Caja de compra: botones grandes, selección azul y cantidad con flechas */
 :root {
-  --accent: #2563eb;
+  --accent: var(--deep-pink);
 }
 .buybox {
   background: #fff;
@@ -1473,7 +1487,7 @@ legend {
   border-radius: 10px;
 }
 .btn-blue:hover:not(:disabled) {
-  background: #1d4fd8;
+  background: #c60058;
 }
 .btn-outline {
   background: #fff;
@@ -1482,7 +1496,8 @@ legend {
   border-radius: 10px;
 }
 .btn-outline:hover:not(:disabled) {
-  background: #eef4fc;
+  background: var(--accent);
+  color: #fff;
 }
 .buy-after {
   margin: 1.25rem 0 0.5rem;
