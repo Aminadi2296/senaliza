@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import type { CategoryNode } from '@/lib/data'
 import { SHIPPING, SITE } from '@/lib/config'
 import { clp } from '@/lib/format'
@@ -44,18 +45,7 @@ export function Header({ tree }: { tree: CategoryNode[] }) {
         </details>
 
         <Link href="/" className="logo">
-          <svg width="30" height="30" viewBox="0 0 100 100" aria-hidden="true">
-            <path
-              d="M50 11 93 86H7Z"
-              fill="#611c1f"
-              stroke="#fff"
-              strokeWidth="6"
-              strokeLinejoin="round"
-            />
-            <rect x="46" y="38" width="8" height="25" rx="3" fill="#001E3C" />
-            <circle cx="50" cy="73" r="4.6" fill="#001E3C" />
-          </svg>
-          {SITE.name}
+          <Image src="/logo-white.svg" alt={SITE.name} width={298} height={56} priority />
         </Link>
 
         <form action="/buscar" className="search" role="search">

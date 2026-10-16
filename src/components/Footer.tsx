@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import type { CategoryNode } from '@/lib/data'
 import { SITE } from '@/lib/config'
 
@@ -7,7 +8,9 @@ export function Footer({ tree }: { tree: CategoryNode[] }) {
     <footer className="site-footer">
       <div className="footer-grid">
         <div>
-          <p className="footer-brand">{SITE.name}</p>
+          <Link href="/" className="footer-brand">
+            <Image src="/logo-white.svg" alt={SITE.name} width={298} height={56} />
+          </Link>
           <p>Fabricamos señalética de seguridad normada para empresas, obras, condominios y colegios.</p>
         </div>
         <div>

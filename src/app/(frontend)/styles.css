@@ -188,12 +188,13 @@ h3 {
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #fff;
+  flex: 0 0 auto;
   text-decoration: none;
-  font:
-    700 1.75rem var(--font-montserrat),
-    sans-serif;
+}
+.logo img {
+  display: block;
+  width: 180px;
+  height: auto;
 }
 .search {
   flex: 1;
@@ -1259,11 +1260,13 @@ legend {
   font-weight: 700;
 }
 .footer-brand {
-  font:
-    700 1.5rem var(--font-montserrat),
-    sans-serif;
-  color: #fff;
+  display: inline-block;
   margin: 0 0 0.5rem;
+}
+.footer-brand img {
+  display: block;
+  width: 180px;
+  height: auto;
 }
 .footer-title {
   font-weight: 600;
@@ -1354,7 +1357,10 @@ legend {
     display: none;
   }
   .logo {
-    font-size: 1.5rem;
+    flex: 0 1 auto;
+  }
+  .logo img {
+    width: 150px;
   }
 }
 @media (max-width: 560px) {
