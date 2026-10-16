@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { useCart } from '@/components/CartProvider'
 import { REGIONES, SHIPPING, shippingFor } from '@/lib/config'
 import { clp } from '@/lib/format'
@@ -11,6 +11,7 @@ export function CheckoutForm() {
   const { items, ready, subtotal } = useCart()
   const [state, action, pending] = useActionState<CheckoutState, FormData>(createOrder, null)
   const v = state?.values ?? {}
+  const [method, setMethod] = useState<'webpay' | 'transferencia'>(v.payment === 'transferencia' ? 'transferencia' : 'webpay')
 
   if (!ready) return <p className="empty">Cargando…</p>
   if (items.length === 0)
@@ -100,14 +101,20 @@ export function CheckoutForm() {
 
         <fieldset>
           <legend>Pago</legend>
-          <label className="pay-option is-on">
-            <input type="radio" name="payment" value="transferencia" defaultChecked readOnly />
+          <label className={`pay-option ${method === 'webpay' ? 'is-on' : ''}`}>
+            <input type="radio" name="payment" value="webpay" checked={method === 'webpay'} onChange={() => setMethod('webpay')} />
+            <span>
+              <strong>Tarjeta de crédito o débito (Webpay)</strong>
+              <small>Te llevamos a Webpay para pagar de forma segura y vuelves aquí al terminar.</small>
+            </span>
+          </label>
+          <label className={`pay-option ${method === 'transferencia' ? 'is-on' : ''}`}>
+            <input type="radio" name="payment" value="transferencia" checked={method === 'transferencia'} onChange={() => setMethod('transferencia')} />
             <span>
               <strong>Transferencia bancaria</strong>
               <small>Al confirmar, te mostramos los datos para transferir. Preparamos tu pedido cuando recibimos el pago.</small>
             </span>
           </label>
-          <p className="muted small">Pago con tarjeta (Webpay) disponible próximamente.</p>
         </fieldset>
       </div>
 
@@ -131,7 +138,7 @@ export function CheckoutForm() {
         </dl>
         {shipping > 0 && <p className="muted small">Agrega {clp(SHIPPING.freeFrom - subtotal)} más y el envío es gratis.</p>}
         <button type="submit" className="btn btn-yellow btn-block" disabled={pending}>
-          {pending ? 'Creando tu pedido…' : 'Confirmar pedido'}
+          {pending ? 'Procesando…' : method === 'webpay' ? 'Pagar con Webpay' : 'Confirmar pedido'}
         </button>
         <p className="muted small">
           <Link href="/carrito">Volver al carrito</Link>

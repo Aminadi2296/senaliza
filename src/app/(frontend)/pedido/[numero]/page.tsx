@@ -6,12 +6,25 @@ import { SITE } from '@/lib/config'
 import { getClient } from '@/lib/data'
 import { clp } from '@/lib/format'
 
-export const metadata: Metadata = { title: 'Pedido recibido', robots: { index: false, follow: false } }
+export const metadata: Metadata = { title: 'Tu pedido', robots: { index: false, follow: false } }
 export const dynamic = 'force-dynamic'
 
-export default async function OrderPage({ params, searchParams }: { params: Promise<{ numero: string }>; searchParams: Promise<{ t?: string }> }) {
+const PAID = ['paid', 'processing', 'shipped', 'delivered']
+const NOTICE: Record<string, string> = {
+  rechazado: 'Tu banco no autorizó el pago. Puedes intentar con otra tarjeta.',
+  anulado: 'El pago fue anulado o se agotó el tiempo. Tu pedido sigue guardado y puedes reintentar.',
+  error: 'No pudimos confirmar tu pago. Si te cobraron, escríbenos por WhatsApp con tu número de pedido.',
+}
+
+export default async function OrderPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ numero: string }>
+  searchParams: Promise<{ t?: string; pago?: string }>
+}) {
   const { numero } = await params
-  const { t } = await searchParams
+  const { t, pago } = await searchParams
   if (!t) notFound()
 
   const payload = await getClient()
@@ -24,35 +37,71 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
   const order = docs[0]
   if (!order) notFound()
 
+  const paid = PAID.includes(order.status)
+  const provider = order.payment?.provider
   const bank = process.env.BANK_DETAILS?.split('\\n').filter(Boolean)
+  const wspHref = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(`Hola, consulta por mi pedido ${order.orderNumber}`)}`
 
   return (
     <div className="section order-page">
-      <ClearCart />
-      <p className="order-ok">Pedido recibido</p>
+      {/* El carrito se vacía cuando el pedido está pagado, o si eligió transferencia. Si el pago falló, se conserva. */}
+      {(paid || provider === 'transferencia') && <ClearCart />}
+
+      <p className={paid ? 'order-ok' : 'order-ok order-wait'}>{paid ? 'Pago confirmado' : 'Pedido recibido'}</p>
       <h1>Gracias, {order.customer.name.split(' ')[0]}</h1>
       <p className="lead">
         Tu número de pedido es <strong>{order.orderNumber}</strong>. Guárdalo para cualquier consulta.
       </p>
 
-      <div className="panel">
-        <h2>Cómo pagar</h2>
-        {bank && bank.length > 0 ? (
-          <>
-            <p>Transfiere {clp(order.total)} a esta cuenta e indica tu número de pedido:</p>
-            <ul className="bank">{bank.map((l) => <li key={l}>{l}</li>)}</ul>
-          </>
-        ) : (
-          <p>Te enviaremos los datos de transferencia a {order.customer.email} y por WhatsApp al {order.customer.phone}.</p>
-        )}
-        <p>
-          Cuando recibamos el pago, preparamos tu pedido.{' '}
-          <a href={`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(`Hola, pagué el pedido ${order.orderNumber}`)}`} target="_blank" rel="noopener noreferrer">
-            Avísanos por WhatsApp
-          </a>{' '}
-          si quieres que lo revisemos antes.
+      {pago && NOTICE[pago] && !paid && (
+        <p className="alert" role="alert">
+          {NOTICE[pago]}
         </p>
-      </div>
+      )}
+
+      {paid ? (
+        <div className="panel">
+          <h2>Pago recibido</h2>
+          <p>
+            Pagaste {clp(order.total)}
+            {order.payment?.cardLast4 ? ` con la tarjeta terminada en ${order.payment.cardLast4}` : ''}. Estamos preparando tu pedido y te avisaremos del despacho.
+          </p>
+        </div>
+      ) : provider === 'webpay' ? (
+        <div className="panel">
+          <h2>Falta completar el pago</h2>
+          <p>Tu pedido está guardado, pero aún no registramos el pago de {clp(order.total)}.</p>
+          <a className="btn btn-yellow" href={`/pagos/webpay/ir?n=${order.orderNumber}&t=${t}`}>
+            Pagar con Webpay
+          </a>
+          <p className="muted small">
+            ¿Problemas con el pago?{' '}
+            <a href={wspHref} target="_blank" rel="noopener noreferrer">
+              Escríbenos por WhatsApp
+            </a>
+            .
+          </p>
+        </div>
+      ) : (
+        <div className="panel">
+          <h2>Cómo pagar</h2>
+          {bank && bank.length > 0 ? (
+            <>
+              <p>Transfiere {clp(order.total)} a esta cuenta e indica tu número de pedido:</p>
+              <ul className="bank">{bank.map((l) => <li key={l}>{l}</li>)}</ul>
+            </>
+          ) : (
+            <p>Te enviaremos los datos de transferencia a {order.customer.email} y por WhatsApp al {order.customer.phone}.</p>
+          )}
+          <p>
+            Cuando recibamos el pago, preparamos tu pedido.{' '}
+            <a href={`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(`Hola, pagué el pedido ${order.orderNumber}`)}`} target="_blank" rel="noopener noreferrer">
+              Avísanos por WhatsApp
+            </a>{' '}
+            si quieres que lo revisemos antes.
+          </p>
+        </div>
+      )}
 
       <div className="panel">
         <h2>Detalle</h2>

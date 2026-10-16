@@ -1160,10 +1160,15 @@ legend {
   display: flex;
   gap: 0.75rem;
   align-items: flex-start;
-  border: 2px solid var(--ink);
-  background: #eef3fb;
+  border: 2px solid var(--line);
+  background: #fff;
   border-radius: var(--r);
   padding: 0.85rem 1rem;
+  cursor: pointer;
+}
+.pay-option.is-on {
+  border-color: var(--ink);
+  background: #f5f5f5;
 }
 .pay-option small {
   display: block;
@@ -1532,4 +1537,7 @@ legend {
 .opt-single {
   margin: 0;
   font-size: 1.05rem;
+}
+.order-wait {
+  background: #b45309;
 }

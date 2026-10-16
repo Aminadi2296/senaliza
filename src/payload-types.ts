@@ -328,6 +328,11 @@ export interface Order {
     provider?: ('webpay' | 'flow' | 'mercadopago' | 'transferencia') | null;
     transactionId?: string | null;
     paidAt?: string | null;
+    token?: string | null;
+    authorizationCode?: string | null;
+    cardLast4?: string | null;
+    installments?: number | null;
+    detail?: string | null;
   };
   notes?: string | null;
   updatedAt: string;
@@ -569,6 +574,11 @@ export interface OrdersSelect<T extends boolean = true> {
         provider?: T;
         transactionId?: T;
         paidAt?: T;
+        token?: T;
+        authorizationCode?: T;
+        cardLast4?: T;
+        installments?: T;
+        detail?: T;
       };
   notes?: T;
   updatedAt?: T;
