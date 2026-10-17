@@ -20,7 +20,7 @@ export async function createOrder(_prev: CheckoutState, fd: FormData): Promise<C
   const name = str(fd, 'name')
   const email = str(fd, 'email').toLowerCase()
   const phone = str(fd, 'phone', 30)
-  const method = str(fd, 'payment') === 'transferencia' ? 'transferencia' : 'webpay'
+  const method = str(fd, 'payment') === 'transferencia' ? 'transferencia' : 'getnet'
   const region = str(fd, 'region')
   const comuna = str(fd, 'comuna')
   const address = str(fd, 'address', 300)
@@ -106,7 +106,7 @@ export async function createOrder(_prev: CheckoutState, fd: FormData): Promise<C
     return { error: 'No pudimos registrar tu pedido. Intenta de nuevo o escríbenos por WhatsApp.', values }
   }
 
-  // Con tarjeta: el pago se inicia en Webpay. Con transferencia: se muestran los datos para transferir.
-  if (method === 'webpay') redirect(`/pagos/webpay/ir?n=${orderNumber}&t=${accessToken}`)
+  // Con tarjeta: el pago se inicia en Getnet. Con transferencia: se muestran los datos para transferir.
+  if (method === 'getnet') redirect(`/pagos/getnet/ir?n=${orderNumber}&t=${accessToken}`)
   redirect(`/pedido/${orderNumber}?t=${accessToken}`)
 }

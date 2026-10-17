@@ -325,10 +325,11 @@ export interface Order {
   shippingCost?: number | null;
   total: number;
   payment?: {
-    provider?: ('webpay' | 'flow' | 'mercadopago' | 'transferencia') | null;
+    provider?: ('getnet' | 'webpay' | 'flow' | 'mercadopago' | 'transferencia') | null;
     transactionId?: string | null;
     paidAt?: string | null;
     token?: string | null;
+    internalReference?: string | null;
     authorizationCode?: string | null;
     cardLast4?: string | null;
     installments?: number | null;
@@ -575,6 +576,7 @@ export interface OrdersSelect<T extends boolean = true> {
         transactionId?: T;
         paidAt?: T;
         token?: T;
+        internalReference?: T;
         authorizationCode?: T;
         cardLast4?: T;
         installments?: T;

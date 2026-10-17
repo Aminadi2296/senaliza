@@ -13,6 +13,7 @@ const PAID = ['paid', 'processing', 'shipped', 'delivered']
 const NOTICE: Record<string, string> = {
   rechazado: 'Tu banco no autorizó el pago. Puedes intentar con otra tarjeta.',
   anulado: 'El pago fue anulado o se agotó el tiempo. Tu pedido sigue guardado y puedes reintentar.',
+  pendiente: 'Tu pago aún está siendo confirmado. Revisa esta página en unos minutos; si te cobraron, no necesitas pagar de nuevo.',
   error: 'No pudimos confirmar tu pago. Si te cobraron, escríbenos por WhatsApp con tu número de pedido.',
 }
 
@@ -67,12 +68,12 @@ export default async function OrderPage({
             {order.payment?.cardLast4 ? ` con la tarjeta terminada en ${order.payment.cardLast4}` : ''}. Estamos preparando tu pedido y te avisaremos del despacho.
           </p>
         </div>
-      ) : provider === 'webpay' ? (
+      ) : provider === 'getnet' ? (
         <div className="panel">
           <h2>Falta completar el pago</h2>
           <p>Tu pedido está guardado, pero aún no registramos el pago de {clp(order.total)}.</p>
-          <a className="btn btn-yellow" href={`/pagos/webpay/ir?n=${order.orderNumber}&t=${t}`}>
-            Pagar con Webpay
+          <a className="btn btn-yellow" href={`/pagos/getnet/ir?n=${order.orderNumber}&t=${t}`}>
+            Pagar con Getnet
           </a>
           <p className="muted small">
             ¿Problemas con el pago?{' '}

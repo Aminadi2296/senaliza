@@ -90,10 +90,11 @@ export const Orders: CollectionConfig = {
       label: 'Pago',
       type: 'group',
       fields: [
-        { name: 'provider', label: 'Pasarela', type: 'select', options: ['webpay', 'flow', 'mercadopago', 'transferencia'] },
+        { name: 'provider', label: 'Pasarela', type: 'select', options: ['getnet', 'webpay', 'flow', 'mercadopago', 'transferencia'] },
         { name: 'transactionId', label: 'ID de transacción', type: 'text' },
         { name: 'paidAt', label: 'Fecha de pago', type: 'date' },
-        { name: 'token', label: 'Token de la pasarela', type: 'text', admin: { readOnly: true } },
+        { name: 'token', label: 'ID de sesión de la pasarela (requestId)', type: 'text', admin: { readOnly: true } },
+        { name: 'internalReference', label: 'Referencia interna de Getnet (para anulaciones)', type: 'text', admin: { readOnly: true } },
         { name: 'authorizationCode', label: 'Código de autorización', type: 'text', admin: { readOnly: true } },
         { name: 'cardLast4', label: 'Últimos 4 dígitos de la tarjeta', type: 'text', admin: { readOnly: true } },
         { name: 'installments', label: 'Cuotas', type: 'number', admin: { readOnly: true } },

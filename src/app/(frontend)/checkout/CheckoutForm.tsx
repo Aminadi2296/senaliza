@@ -11,7 +11,7 @@ export function CheckoutForm() {
   const { items, ready, subtotal } = useCart()
   const [state, action, pending] = useActionState<CheckoutState, FormData>(createOrder, null)
   const v = state?.values ?? {}
-  const [method, setMethod] = useState<'webpay' | 'transferencia'>(v.payment === 'transferencia' ? 'transferencia' : 'webpay')
+  const [method, setMethod] = useState<'getnet' | 'transferencia'>(v.payment === 'transferencia' ? 'transferencia' : 'getnet')
 
   if (!ready) return <p className="empty">Cargando…</p>
   if (items.length === 0)
@@ -101,11 +101,11 @@ export function CheckoutForm() {
 
         <fieldset>
           <legend>Pago</legend>
-          <label className={`pay-option ${method === 'webpay' ? 'is-on' : ''}`}>
-            <input type="radio" name="payment" value="webpay" checked={method === 'webpay'} onChange={() => setMethod('webpay')} />
+          <label className={`pay-option ${method === 'getnet' ? 'is-on' : ''}`}>
+            <input type="radio" name="payment" value="getnet" checked={method === 'getnet'} onChange={() => setMethod('getnet')} />
             <span>
-              <strong>Tarjeta de crédito o débito (Webpay)</strong>
-              <small>Te llevamos a Webpay para pagar de forma segura y vuelves aquí al terminar.</small>
+              <strong>Tarjeta de crédito, débito o prepago</strong>
+              <small>Paga seguro todo lo que necesitas con Getnet utilizando tus tarjetas de crédito, débito y prepago, de todos los emisores nacionales e internacionales.</small>
             </span>
           </label>
           <label className={`pay-option ${method === 'transferencia' ? 'is-on' : ''}`}>
@@ -138,7 +138,7 @@ export function CheckoutForm() {
         </dl>
         {shipping > 0 && <p className="muted small">Agrega {clp(SHIPPING.freeFrom - subtotal)} más y el envío es gratis.</p>}
         <button type="submit" className="btn btn-yellow btn-block" disabled={pending}>
-          {pending ? 'Procesando…' : method === 'webpay' ? 'Pagar con Webpay' : 'Confirmar pedido'}
+          {pending ? 'Procesando…' : method === 'getnet' ? 'Pagar con Getnet' : 'Confirmar pedido'}
         </button>
         <p className="muted small">
           <Link href="/carrito">Volver al carrito</Link>
